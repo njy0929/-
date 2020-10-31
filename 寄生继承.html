@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function People (name, sex, age) {
+            this.name = name;
+            this.sex = sex;
+            this.age = age;
+        }
+        People.prototype.sayName = function () {
+            console.log("大家好，我是" + this.name);
+        }
+
+        function Student (name, sex, age, grade) {
+            People.apply(this, arguments)
+            this.grade = grade;
+            
+        }
+
+        //寄生函数
+        function jisheng(parent, child) {
+            var F = function () {
+                this.constructor = child;
+            }
+            F.prototype = People.prototype;
+            child.prototype = new F();
+
+            return child;
+        }
+
+        jisheng(People, Student);
+
+        var i = new Student("小牛", "男", 19, "高一");
+        i.sayName();
+
+
+    </script>
+</body>
+</html>
